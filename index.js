@@ -1,14 +1,17 @@
 const inquirer = require("inquirer");
-
-// array of questions for user
-const questions = [
-  "Provide contributing guidelines:",
-  "Provide instructions for use:",
-  "Please select a license for your work (if any):",
-];
+const fs = require("fs");
+const generateMarkdown = require("./utils/generateMarkdown.js");
 
 // function to write README file
-function writeToFile(fileName, data) {}
+const writeToFile = (data) => {
+  fs.writeFile("./dist/readme.md", data, (err) => {
+    if (err) {
+      console.log(err);
+    }
+    console.log(`
+    Your readme file has been successfully created! Check /dist folder.`);
+  });
+};
 
 // function to initialize program
 function init() {
@@ -165,10 +168,15 @@ function init() {
       },
     ])
     .then((mdContent) => {
-      console.log(mdContent);
       return mdContent;
     });
 }
 
 // function call to initialize program
-init();
+init()
+  .then((mdContent) => {
+    return generateMarkdown(mdContent);
+  })
+  .then((markdown) => {
+    writeToFile(markdown);
+  });

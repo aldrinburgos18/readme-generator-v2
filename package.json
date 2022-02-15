@@ -1,0 +1,22 @@
+{
+  "name": "readme-generator",
+  "version": "2.0.0",
+  "description": "A readme generator created using node.js and inquirer.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/aldrinburgos18/readme-generator-v2.git"
+  },
+  "author": "Aldrin Burgos",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/aldrinburgos18/readme-generator-v2/issues"
+  },
+  "homepage": "https://github.com/aldrinburgos18/readme-generator-v2#readme",
+  "dependencies": {
+    "inquirer": "^8.2.0"
+  }
+}

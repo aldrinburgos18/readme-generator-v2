@@ -14,7 +14,7 @@ const writeToFile = (data) => {
 };
 
 // function to initialize program
-function init() {
+const init = () => {
   return inquirer
     .prompt([
       {
@@ -99,34 +99,6 @@ function init() {
         },
       },
       {
-        type: "confirm",
-        name: "confirmScreenshot",
-        message: "Would you like to add some screenshots?",
-        default: true,
-      },
-      {
-        type: "input",
-        name: "screenshot",
-        message:
-          "Enter your screenshot's relative path without single quotes: (ex. './assets/img/screenshot1.png')",
-        when: ({ confirmScreenshot }) => {
-          if (confirmScreenshot) {
-            return true;
-          } else {
-            return false;
-          }
-        },
-        validate: (screenshotInput) => {
-          if (screenshotInput) {
-            return true;
-          } else {
-            console.log(
-              "Please enter your screenshot's relative path without single quotes:"
-            );
-          }
-        },
-      },
-      {
         type: "input",
         name: "contributing",
         message: "Provide contributing guidelines:",
@@ -166,9 +138,74 @@ function init() {
           "none",
         ],
       },
+      {
+        type: "confirm",
+        name: "confirmScreenshot",
+        message: "Would you like to add some screenshots?",
+        default: true,
+      },
     ])
-    .then((mdContent) => {
-      return mdContent;
+    .then((projectData) => {
+      if (projectData.confirmScreenshot) {
+        return addScreenshot(projectData);
+      } else {
+        return projectData;
+      }
+    });
+};
+
+function addScreenshot(projectData) {
+  if (!projectData.screenshots) {
+    projectData.screenshots = [];
+  }
+  return inquirer
+    .prompt([
+      {
+        type: "input",
+        name: "screenshot",
+        message:
+          "Enter your screenshot's relative path without single quotes: (ex. './assets/img/screenshot1.png')",
+        validate: (screenshotInput) => {
+          if (screenshotInput) {
+            return true;
+          } else {
+            console.log(
+              "Please enter your screenshot's relative path without single quotes:"
+            );
+          }
+        },
+      },
+      {
+        type: "input",
+        name: "screenshotDescription",
+        message: "Enter a brief description about this screenshot:",
+        validate: (screenshotDescriptionInput) => {
+          if (screenshotDescriptionInput) {
+            return true;
+          } else {
+            console.log(
+              "Please enter a brief description about this screenshot!"
+            );
+          }
+        },
+      },
+      {
+        type: "confirm",
+        name: "confirmAddScreenshot",
+        message: "Would you like to add more screenshots?",
+        default: "false",
+      },
+    ])
+    .then((screenshotData) => {
+      projectData.screenshots.push({
+        screenshot: screenshotData.screenshot,
+        description: screenshotData.screenshotDescription,
+      });
+      if (screenshotData.confirmAddScreenshot) {
+        return addScreenshot(projectData);
+      }
+      console.log(projectData);
+      return projectData;
     });
 }
 
@@ -178,5 +215,8 @@ init()
     return generateMarkdown(mdContent);
   })
   .then((markdown) => {
-    writeToFile(markdown);
+    return writeToFile(markdown);
+  })
+  .catch((err) => {
+    console.log(err);
   });

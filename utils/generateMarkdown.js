@@ -1,14 +1,27 @@
+const generateLicense = require("./generateLicense.js");
+
 //function to generate screenshot
 function generateScreenshot(screenshot) {
   if (screenshot) {
-    return `![Alt text](${screenshot} "Screenshot")`;
+    return `
+  ## Screenshots
+      ${screenshot
+        .map(({ screenshot, description }) => {
+          return `
+  ![Alt text](${screenshot} "${description}")  
+  ${description}
+        `;
+        })
+        .join("  ")}`;
   } else {
     return ``;
   }
 }
 
 // function to generate markdown for README
-function generateMarkdown(data) {
+module.exports = (data) => {
+  const { screenshots } = data;
+
   return `# ${data.title}
   ## Description
   ${data.description}  
@@ -27,8 +40,8 @@ function generateMarkdown(data) {
   
   ## Usage
   ${data.instructions}
-  ${generateScreenshot(data.screenshot)}
   
+  ${generateScreenshot(screenshots)}
   ## Contributing
   ${data.contributing}
   
@@ -38,8 +51,6 @@ function generateMarkdown(data) {
   Github: [${data.username}](https://github.com/${data.username})
   
   ## License
-  ${data.license}
+  ${generateLicense(data.license)}
   `;
-}
-
-module.exports = generateMarkdown;
+};

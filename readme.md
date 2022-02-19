@@ -6,7 +6,7 @@
 
 A command-line application that dynamically generates a professional README.md file from a user's input using the Inquirer package.
 
-**Link to deployed application:** [https://github.com/aldrinburgos18/README-generator](https://github.com/aldrinburgos18/README-generator)
+**Link to deployed application:** [https://github.com/aldrinburgos18/readme-generator-v2](https://github.com/aldrinburgos18/readme-generator-v2)
 
 ## Table of Contents
 

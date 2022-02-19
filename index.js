@@ -100,18 +100,6 @@ const init = () => {
       },
       {
         type: "input",
-        name: "contributing",
-        message: "Provide contributing guidelines:",
-        validate: (contributingInput) => {
-          if (contributingInput) {
-            return true;
-          } else {
-            console.log("Please provide contributing guidelines!");
-          }
-        },
-      },
-      {
-        type: "input",
         name: "instructions",
         message: "Provide instructions for use:",
         validate: (instructionsInput) => {
@@ -137,6 +125,18 @@ const init = () => {
           "gpl-3.0",
           "none",
         ],
+      },
+      {
+        type: "input",
+        name: "contributing",
+        message: "Provide contributing guidelines:",
+        validate: (contributingInput) => {
+          if (contributingInput) {
+            return true;
+          } else {
+            console.log("Please provide contributing guidelines!");
+          }
+        },
       },
       {
         type: "confirm",
